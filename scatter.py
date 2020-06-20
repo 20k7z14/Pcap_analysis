@@ -54,7 +54,6 @@ class Scatter:
         plt.show()
 
     def quadFlatScatter(self):
-
         fig, axes = plt.subplots(2, 2, figsize=(10.0, 8.0), sharey=True)
         for cnt,pot in enumerate(honey_pots, 0):
             path, period = self.load_potCsv(pot)  # data_range's type is str
