@@ -20,6 +20,17 @@ class Honeypots:
             csv_path.append(rf'../csv/common/{name}')
         return csv_path
 
+    def load_honeypot(self):
+        honeypots = ['lurker', 'dionaea', 'ubuntu', 'windows']
+        honeypots_csv_path = []
+        for pot in honeypots:
+            tmp = []
+            pot_name = os.listdir(f'../csv/{pot}')
+            for name in pot_name:
+                tmp.append(rf'../csv/{pot}/{name}')
+            honeypots_csv_path.append(tmp)
+        return honeypots_csv_path
+
     def extract_Honeypot(self, path):
         if path.split('.')[1] == '.csv':
             df = pd.read_csv(path)
@@ -40,3 +51,26 @@ class Honeypots:
                 os.remove(rf'../csv/Ubuntu/u_{file_date}.csv')
                 os.remove(rf'../csv/Windows/w_{file_date}.csv')
 
+    def extract_signature(self,*column):
+        honeypots = ['lurker', 'dionaea', 'ubuntu', 'windows']
+
+        for col in column:
+            path_dataframe = self.load_honeypot()
+            for i, path in enumerate(path_dataframe):
+                sig = pd.DataFrame()
+                for p in path:
+                    df = pd.read_csv(p,engine="python")
+                    tmp = p.split('/')[3].split('.')[0].split('_')[1:]
+                    date = tmp[0]+tmp[1]
+                    sig[date] = df[col]
+
+                print(sig)
+                sig_path = rf'../csv/{honeypots[i]}/signature'
+
+                try:
+                    if not os.path.exists(sig_path):
+                        os.makedirs(sig_path)
+                except OSError:
+                    print("Error: Could not make directory.")
+
+                sig.to_csv(rf'../csv/{honeypots[i]}/signature/{col}.csv')

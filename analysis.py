@@ -15,6 +15,9 @@ if __name__ == '__main__':
         for path in tqdm(hp.pot_path):
             hp.extract_Honeypot(path)
 
+    elif args[1] == '-s':
+        hp.extract_signature(*args[2:])
+
     elif args[1] == '-i': # individual
         chart = sc.Scatter(args[3], args[4])
         chart.singleFlatScatter(args[2])
