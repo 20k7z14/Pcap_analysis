@@ -1,0 +1,8 @@
+analysis:
+  ☐ extract conditions after args[3:]
+  ☐ ajust UI's args
+
+
+pcap_csv:
+  ☐ extract csv's file again with column's header
+
